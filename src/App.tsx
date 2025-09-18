@@ -23,9 +23,11 @@ const missions = [
 ]
 
 const inventory = [
-  { id: 1, name: 'T-Shirt', price: 20, description: 'Comfortable cotton t-shirt' },
-  { id: 2, name: 'Mug', price: 10, description: 'Ceramic mug with logo' },
-  { id: 3, name: 'Sticker Pack', price: 5, description: 'Set of 5 stickers' },
+  { id: 1, name: 'T-Shirt', price: 20, description: 'Comfortable cotton t-shirt', image: 'https://images.unsplash.com/photo-1520975961120-6c46d8d8d8a6?w=400&auto=format&fit=crop' },
+  { id: 2, name: 'Mug', price: 10, description: 'Ceramic mug with logo', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=400&auto=format&fit=crop' },
+  { id: 3, name: 'Sticker Pack', price: 5, description: 'Set of 5 stickers', image: 'https://images.unsplash.com/photo-1607083206968-13617fbbf5d0?w=400&auto=format&fit=crop' },
+  { id: 4, name: 'Hoodie', price: 35, description: 'Cozy hoodie with front pocket', image: 'https://images.unsplash.com/photo-1617957741643-c1a503d17b96?w=400&auto=format&fit=crop' },
+  { id: 5, name: 'Cap', price: 15, description: 'Adjustable baseball cap', image: 'https://images.unsplash.com/photo-1622445276279-c57a2a72e8d1?w=400&auto=format&fit=crop' },
 ]
 
 type CartItem = { id: number; name: string; price: number; quantity: number }
@@ -108,12 +110,30 @@ export default function App() {
               <h2 className="section-title">Welcome to Trillogy Empowers</h2>
               <p className="muted">We are dedicated to empowering youth and building strong communities through innovative programs and initiatives.</p>
 
-              <div className="hero-wrap">
-                <img
-                  className="hero-image"
-                  src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop"
-                  alt="Nature landscape"
-                />
+              {/* Gallery (multiple pictures, compact like the website) */}
+              <div className="gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                {[
+                  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1520975922325-24c44fbe5f2c?q=80&w=1200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1516542076529-1ea3854896e1?q=80&w=1200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1520975693415-1f94f979e1a5?q=80&w=1200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1200&auto=format&fit=crop'
+                ].map((src, idx) => (
+                  <motion.div
+                    key={src}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    style={{ borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 6px rgba(0,0,0,0.07)' }}
+                  >
+                    <img
+                      src={src}
+                      alt={`Gallery ${idx + 1}`}
+                      style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }}
+                    />
+                  </motion.div>
+                ))}
               </div>
 
               {/* Stats */}
@@ -220,6 +240,9 @@ export default function App() {
               <div className="inventory">
                 {filteredInventory.map(item => (
                   <div key={item.id} className="item-card">
+                    {item.image && (
+                      <img src={item.image} alt={item.name} style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }} />
+                    )}
                     <h3>{item.name}</h3>
                     <p className="muted">{item.description}</p>
                     <p className="price">{currency(item.price)}</p>
